@@ -1,0 +1,11 @@
+-js lib/atom-clock.js
+-lib hxnodejs
+#-lib hxatom
+-cp src
+-cp ../../lib/hxatom/src
+
+Clock
+-dce full
+--no-traces
+-D noEmbedJS
+#-debug
