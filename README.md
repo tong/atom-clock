@@ -1,5 +1,5 @@
 # Atom clock package
 
-Digital clock for the status bar.
+A simple digital clock for the Atom status bar.
 
 ![Screenshot](screenshot.png)

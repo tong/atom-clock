@@ -3,9 +3,9 @@
 #-lib hxatom
 -cp src
 -cp ../../lib/hxatom/src
-
+-D atom_package
 Clock
 -dce full
---no-traces
 -D noEmbedJS
+--no-traces
 #-debug

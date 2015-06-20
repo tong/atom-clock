@@ -13,74 +13,70 @@ class Clock {
         seconds: { "title": "Show seconds", "type": "boolean", "default": true }
     };
 
-    static var toggleCommand : Disposable;
-    static var enabled :  Bool;
     static var view : ClockView;
-    static var timer : Timer;
+    static var enabled :  Bool;
     static var showSeconds : Bool;
+    static var timer : Timer;
+    static var commandShow : Disposable;
+    static var commandHide : Disposable;
+    static var configChangeListener : Disposable;
 
     static function activate( state ) {
 
         trace( 'Atom-clock' );
 
         enabled = (state != null) ? state.enabled : true;
+        if( enabled == null ) enabled = true;
+
         showSeconds = Atom.config.get( 'clock.seconds' );
+
         view = new ClockView();
 
-        Atom.config.onDidChange( 'clock.seconds', {}, function(e){
+        enabled ? show() : hide();
+
+        configChangeListener = Atom.config.onDidChange( 'clock.seconds', {}, function(e){
             showSeconds = e.newValue;
             update();
         });
-
-        toggleCommand = Atom.commands.add( 'atom-workspace', 'clock:toggle', function(_) toggle() );
-
-        if( enabled ) {
-            timer = new Timer( 1000 );
-            timer.run = handleTimer;
-        }
     }
 
     static function deactivate() {
-        toggleCommand.dispose();
+        configChangeListener.dispose();
+        if(commandShow != null ) commandShow.dispose();
+        if(commandHide != null ) commandHide.dispose();
         if( timer != null ) {
             timer.stop();
             timer = null;
         }
     }
 
-    static function serialize()
-        return { enabled: enabled };
+    static function serialize() return { enabled: enabled };
 
-    static function toggle() {
-        if( enabled ) {
-            enabled = view.visible = false;
-            if( timer != null ) {
-                timer.stop();
-                timer = null;
-            }
-        } else {
-            enabled = view.visible = true;
-            update();
-            timer = new Timer( 1000 );
-            timer.run = handleTimer;
-        }
+    static function show() {
+        enabled = view.visible = true;
+        timer = new Timer( 1000 );
+        timer.run = update;
+        commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
+        if( commandShow != null ) commandShow.dispose();
     }
 
-    static function handleTimer()
-        update();
+    static function hide() {
+        enabled = view.visible = false;
+        if( timer != null ) {
+            timer.stop();
+            timer = null;
+        }
+        commandShow = Atom.commands.add( 'atom-workspace', 'clock:show', function(_) show() );
+        if( commandHide != null ) commandHide.dispose();
+    }
 
     static function update() {
-        var now = Date.now();
-        var str = formatTimePart( now.getHours() ) +':'+ formatTimePart( now.getMinutes() );
-        if( showSeconds ) str += ':' + formatTimePart( now.getSeconds() );
-        view.time( str );
+        view.setTime( Date.now(), showSeconds );
     }
-
-    static inline function formatTimePart( i : Int ) : String
-        return (i < 10) ? '0$i' : Std.string(i);
 
     static function consumeStatusBar( bar )
         bar.addRightTile( { item:view, priority:-100 } );
+
 }
 
 private abstract ClockView(DivElement) {
@@ -100,6 +96,12 @@ private abstract ClockView(DivElement) {
         return v;
     }
 
-    public inline function time( text : String )
-        this.textContent = text;
+    public inline function setTime( time : Date, showSeconds : Bool ) {
+        var str = formatTimePart( time.getHours() ) +':'+ formatTimePart( time.getMinutes() );
+        if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
+        this.textContent = str;
+    }
+
+    static function formatTimePart( i : Int ) : String
+        return (i < 10) ? '0$i' : Std.string(i);
 }
