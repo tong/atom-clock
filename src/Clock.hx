@@ -10,12 +10,14 @@ class Clock {
     static inline function __init__() untyped module.exports = Clock;
 
     static var config = {
-        seconds: { "title": "Show seconds", "type": "boolean", "default": true }
+        seconds: { "title": "Show seconds", "type": "boolean", "default": true },
+        //format: { "title": "24-hour format", "type": "boolean", "default": true }
     };
 
     static var view : ClockView;
     static var enabled :  Bool;
     static var showSeconds : Bool;
+    static var format : Bool;
     static var timer : Timer;
     static var commandShow : Disposable;
     static var commandHide : Disposable;
@@ -34,16 +36,17 @@ class Clock {
 
         enabled ? show() : hide();
 
-        configChangeListener = Atom.config.onDidChange( 'clock.seconds', {}, function(e){
+        configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
             showSeconds = e.newValue;
+            //format = e.newValue.format;
             update();
         });
     }
 
     static function deactivate() {
-        configChangeListener.dispose();
-        if(commandShow != null ) commandShow.dispose();
-        if(commandHide != null ) commandHide.dispose();
+        if( configChangeListener != null ) configChangeListener.dispose();
+        if( commandShow != null ) commandShow.dispose();
+        if( commandHide != null ) commandHide.dispose();
         if( timer != null ) {
             timer.stop();
             timer = null;
@@ -84,10 +87,13 @@ private abstract ClockView(DivElement) {
     public var visible(get,set) : Bool;
 
     public inline function new() {
+
         this = document.createDivElement();
         this.classList.add( 'status-bar-clock' );
         this.classList.add( 'clock-status' );
         this.classList.add( 'inline-block' );
+
+        Atom.contextMenu.add({ 'atom-workspace':[{ label:'Hide', command:'clock:hide' } ] });
     }
 
     inline function get_visible() : Bool return this.style.display == 'visible';
