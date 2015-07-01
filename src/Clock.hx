@@ -19,6 +19,7 @@ class Clock {
     static var showSeconds : Bool;
     static var format : Bool;
     static var timer : Timer;
+    static var commandToggleSeconds : Disposable;
     static var commandShow : Disposable;
     static var commandHide : Disposable;
     static var configChangeListener : Disposable;
@@ -41,16 +42,20 @@ class Clock {
             //format = e.newValue.format;
             update();
         });
+
+        commandToggleSeconds = Atom.commands.add( 'atom-workspace', 'clock:toggle-seconds', function(_) showSeconds = !showSeconds );
+        commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
     }
 
     static function deactivate() {
-        if( configChangeListener != null ) configChangeListener.dispose();
-        if( commandShow != null ) commandShow.dispose();
-        if( commandHide != null ) commandHide.dispose();
         if( timer != null ) {
             timer.stop();
             timer = null;
         }
+        if( configChangeListener != null ) configChangeListener.dispose();
+        if( commandShow != null ) commandShow.dispose();
+        if( commandHide != null ) commandHide.dispose();
+        commandToggleSeconds.dispose();
     }
 
     static function serialize() return { enabled: enabled };
