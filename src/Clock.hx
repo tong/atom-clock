@@ -11,13 +11,13 @@ class Clock {
 
     static var config = {
         seconds: { "title": "Show seconds", "type": "boolean", "default": true },
-        //format: { "title": "24-hour format", "type": "boolean", "default": true }
+        format: { "title": "24-hour format", "type": "boolean", "default": true }
     };
 
     static var view : ClockView;
     static var enabled :  Bool;
     static var showSeconds : Bool;
-    static var format : Bool;
+    static var format24 : Bool;
     static var timer : Timer;
     static var commandToggleSeconds : Disposable;
     static var commandShow : Disposable;
@@ -38,8 +38,8 @@ class Clock {
         enabled ? show() : hide();
 
         configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
-            showSeconds = e.newValue;
-            //format = e.newValue.format;
+            showSeconds = e.newValue.seconds;
+            format24 = e.newValue.format;
             update();
         });
 
@@ -78,13 +78,13 @@ class Clock {
         if( commandHide != null ) commandHide.dispose();
     }
 
-    static function update() {
-        view.setTime( Date.now(), showSeconds );
+    static inline function update() {
+        view.setTime( Date.now(), showSeconds, format24 );
     }
 
-    static function consumeStatusBar( bar )
+    static function consumeStatusBar( bar ) {
         bar.addRightTile( { item:view, priority:-100 } );
-
+    }
 }
 
 private abstract ClockView(DivElement) {
@@ -107,8 +107,17 @@ private abstract ClockView(DivElement) {
         return v;
     }
 
-    public inline function setTime( time : Date, showSeconds : Bool ) {
-        var str = formatTimePart( time.getHours() ) +':'+ formatTimePart( time.getMinutes() );
+    public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
+        time;
+        var str = '';
+        var hours = time.getHours();
+        if( format24 ) {
+            str = formatTimePart( hours );
+        } else {
+            if( hours > 12 ) hours = hours-12;
+            str = formatTimePart( hours );
+        }
+        str += ':' + formatTimePart( time.getMinutes() );
         if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
         this.textContent = str;
     }
