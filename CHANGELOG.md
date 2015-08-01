@@ -1,6 +1,7 @@
 ## 1.2.0
 * Hide using context menu
 * Command toggle show seconds
+* Time format (24|AM/PM) config option
 
 ## 1.1.0
 * Show/Hide commands instead of toggle
