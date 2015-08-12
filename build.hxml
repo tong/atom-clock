@@ -3,6 +3,7 @@
 #-lib hxatom
 -cp src
 -cp ../../lib/hxatom/src
+-D hxatom
 -D atom_package
 Clock
 -dce full
