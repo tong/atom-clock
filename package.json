@@ -1,16 +1,23 @@
 {
-    "name": "clock",
-    "main": "./lib/atom-clock",
-    "version": "1.2.0",
-    "description": "Display time in status bar",
-    "keywords": ["clock","time"],
-    "consumedServices": {
-        "status-bar": { "versions": { "^1.0.0": "consumeStatusBar" } }
-    },
-    "repository": "https://github.com/tong/atom-clock",
-    "license": "MIT",
-    "engines": {
-        "atom": ">=0.174.0 <2.0.0"
-    },
-    "dependencies": {}
+  "name": "clock",
+  "main": "./lib/atom-clock",
+  "version": "1.2.1",
+  "description": "Display time in status bar",
+  "keywords": [
+    "clock",
+    "time"
+  ],
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "repository": "https://github.com/tong/atom-clock",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {}
 }
