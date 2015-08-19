@@ -32,6 +32,7 @@ class Clock {
         if( enabled == null ) enabled = true;
 
         showSeconds = Atom.config.get( 'clock.seconds' );
+        format24 = Atom.config.get( 'clock.format' );
 
         view = new ClockView();
 
@@ -108,7 +109,6 @@ private abstract ClockView(DivElement) {
     }
 
     public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
-        time;
         var str = '';
         var hours = time.getHours();
         if( format24 ) {
