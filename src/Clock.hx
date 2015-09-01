@@ -36,8 +36,6 @@ class Clock {
 
         view = new ClockView();
 
-        enabled ? show() : hide();
-
         configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
             showSeconds = e.newValue.seconds;
             format24 = e.newValue.format;
@@ -45,7 +43,8 @@ class Clock {
         });
 
         commandToggleSeconds = Atom.commands.add( 'atom-workspace', 'clock:toggle-seconds', function(_) showSeconds = !showSeconds );
-        commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
+
+        enabled ? show() : hide();
     }
 
     static function deactivate() {
@@ -66,7 +65,10 @@ class Clock {
         timer = new Timer( 1000 );
         timer.run = update;
         commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
-        if( commandShow != null ) commandShow.dispose();
+        if( commandShow != null ) {
+            commandShow.dispose();
+            commandShow = null;
+        }
     }
 
     static function hide() {
@@ -76,7 +78,10 @@ class Clock {
             timer = null;
         }
         commandShow = Atom.commands.add( 'atom-workspace', 'clock:show', function(_) show() );
-        if( commandHide != null ) commandHide.dispose();
+        if( commandHide != null ) {
+            commandHide.dispose();
+            commandHide = null;
+        }
     }
 
     static inline function update() {
@@ -93,31 +98,20 @@ private abstract ClockView(DivElement) {
     public var visible(get,set) : Bool;
 
     public inline function new() {
-
         this = document.createDivElement();
-        this.classList.add( 'status-bar-clock' );
-        this.classList.add( 'clock-status' );
-        this.classList.add( 'inline-block' );
-
-        Atom.contextMenu.add({ 'atom-workspace':[{ label:'Hide', command:'clock:hide' } ] });
+        this.classList.add( 'status-bar-clock', 'inline-block' );
     }
 
-    inline function get_visible() : Bool return this.style.display == 'visible';
+    inline function get_visible() : Bool return this.style.display == 'inline-block';
     inline function set_visible(v:Bool) : Bool {
         this.style.display = v ? 'inline-block' : 'none';
         return v;
     }
 
     public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
-        var str = '';
         var hours = time.getHours();
-        if( format24 ) {
-            str = formatTimePart( hours );
-        } else {
-            if( hours > 12 ) hours = hours-12;
-            str = formatTimePart( hours );
-        }
-        str += ':' + formatTimePart( time.getMinutes() );
+        if( !format24 && hours > 1 ) hours -= 12;
+        var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
         if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
         this.textContent = str;
     }

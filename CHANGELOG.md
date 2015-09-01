@@ -1,3 +1,6 @@
+## 1.2.4
+* Fix dynamic add/remove show/hide commands
+
 ## 1.2.0
 * Hide using context menu
 * Command toggle show seconds
