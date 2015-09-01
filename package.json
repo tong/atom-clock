@@ -1,9 +1,13 @@
 {
   "name": "clock",
   "main": "./lib/atom-clock",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Display time in status bar",
-  "keywords": ["clock","time","statusbar"],
+  "keywords": [
+    "clock",
+    "time",
+    "statusbar"
+  ],
   "consumedServices": {
     "status-bar": {
       "versions": {
