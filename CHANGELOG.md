@@ -1,3 +1,6 @@
+## 1.2.5
+* Fix typo in time string formatting showing incorrect time
+
 ## 1.2.4
 * Fix dynamic add/remove show/hide commands
 

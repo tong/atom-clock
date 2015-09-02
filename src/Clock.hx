@@ -110,7 +110,7 @@ private abstract ClockView(DivElement) {
 
     public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
         var hours = time.getHours();
-        if( !format24 && hours > 1 ) hours -= 12;
+        if( !format24 && hours > 12 ) hours -= 12;
         var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
         if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
         this.textContent = str;
