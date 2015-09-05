@@ -14,7 +14,6 @@ class Clock {
         format: { "title": "24-hour format", "type": "boolean", "default": true }
     };
 
-    static var view : ClockView;
     static var enabled :  Bool;
     static var showSeconds : Bool;
     static var format24 : Bool;
@@ -23,6 +22,7 @@ class Clock {
     static var commandShow : Disposable;
     static var commandHide : Disposable;
     static var configChangeListener : Disposable;
+    static var view : DigitalClockView;
 
     static function activate( state ) {
 
@@ -34,7 +34,7 @@ class Clock {
         showSeconds = Atom.config.get( 'clock.seconds' );
         format24 = Atom.config.get( 'clock.format' );
 
-        view = new ClockView();
+        view = new DigitalClockView();
 
         configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
             showSeconds = e.newValue.seconds;
@@ -91,31 +91,4 @@ class Clock {
     static function consumeStatusBar( bar ) {
         bar.addRightTile( { item:view, priority:-100 } );
     }
-}
-
-private abstract ClockView(DivElement) {
-
-    public var visible(get,set) : Bool;
-
-    public inline function new() {
-        this = document.createDivElement();
-        this.classList.add( 'status-bar-clock', 'inline-block' );
-    }
-
-    inline function get_visible() : Bool return this.style.display == 'inline-block';
-    inline function set_visible(v:Bool) : Bool {
-        this.style.display = v ? 'inline-block' : 'none';
-        return v;
-    }
-
-    public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
-        var hours = time.getHours();
-        if( !format24 && hours > 12 ) hours -= 12;
-        var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
-        if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
-        this.textContent = str;
-    }
-
-    static function formatTimePart( i : Int ) : String
-        return (i < 10) ? '0$i' : Std.string(i);
 }
