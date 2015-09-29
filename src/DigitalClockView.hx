@@ -8,6 +8,7 @@ abstract DigitalClockView(DivElement) {
 
     public inline function new() {
         this = document.createDivElement();
+        this.style.display = 'inline-block';
         this.classList.add( 'status-bar-clock', 'inline-block' );
     }
 
