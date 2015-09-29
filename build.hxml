@@ -5,6 +5,7 @@
 -cp ../../lib/hxatom/src
 -D hxatom
 -D atom_package
+-D analyzer
 Clock
 -dce full
 -D noEmbedJS
