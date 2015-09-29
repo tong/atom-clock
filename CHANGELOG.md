@@ -1,4 +1,7 @@
-## 1.2.5
+## 1.2.7
+* Set the clock style display value to 'inline-block' on create.
+
+## 1.2.6
 * Fix typo in time string formatting showing incorrect time
 
 ## 1.2.4
