@@ -10,13 +10,32 @@ class Clock {
     static inline function __init__() untyped module.exports = Clock;
 
     static var config = {
-        seconds: { "title": "Show seconds", "type": "boolean", "default": true },
-        format: { "title": "24-hour format", "type": "boolean", "default": true }
+        seconds: {
+            "title": "Show seconds",
+            "type": "boolean",
+            "description": "Toggle show seconds",
+            "default": true
+        },
+        format: {
+            "title": "24-hour format",
+            "type": "boolean",
+            "description": "Toggle 12/24 format",
+            "default": true
+        },
+        am_pm_suffix: {
+            "title": "AM/PM suffix",
+            "type": "boolean",
+            "description": "Show AM/PM suffix when 12-hour format is selected",
+            "default": true
+        }
     };
 
     static var enabled :  Bool;
+
     static var showSeconds : Bool;
     static var format24 : Bool;
+    static var amPmSuffix : Bool;
+
     static var timer : Timer;
     static var commandToggleSeconds : Disposable;
     static var commandShow : Disposable;
@@ -33,12 +52,14 @@ class Clock {
 
         showSeconds = Atom.config.get( 'clock.seconds' );
         format24 = Atom.config.get( 'clock.format' );
+        amPmSuffix = Atom.config.get( 'clock.am_pm_suffix' );
 
         view = new DigitalClockView();
 
         configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
             showSeconds = e.newValue.seconds;
             format24 = e.newValue.format;
+            amPmSuffix = e.newValue.am_pm_suffix;
             update();
         });
 
@@ -85,7 +106,7 @@ class Clock {
     }
 
     static inline function update() {
-        view.setTime( Date.now(), showSeconds, format24 );
+        view.setTime( Date.now(), showSeconds, format24, amPmSuffix );
     }
 
     static function consumeStatusBar( bar ) {

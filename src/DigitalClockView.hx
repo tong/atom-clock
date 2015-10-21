@@ -18,11 +18,12 @@ abstract DigitalClockView(DivElement) {
         return v;
     }
 
-    public function setTime( time : Date, showSeconds : Bool, format24 : Bool ) {
+    public function setTime( time : Date, showSeconds : Bool, format24 : Bool, amPmSuffix : Bool ) {
         var hours = time.getHours();
         if( !format24 && hours > 12 ) hours -= 12;
         var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
         if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
+        if( !format24 && amPmSuffix ) str += (time.getHours() > 12) ? ' PM' : ' AM';
         this.textContent = str;
     }
 

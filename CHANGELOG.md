@@ -1,5 +1,6 @@
 ## 1.2.7
 * Set the clock style display value to 'inline-block' on create.
+* Config option to show AM/PM when 12-hour format is selected.
 
 ## 1.2.6
 * Fix typo in time string formatting showing incorrect time

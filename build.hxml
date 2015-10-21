@@ -1,4 +1,4 @@
--js lib/atom-clock.js
+-js lib/clock.js
 -lib hxnodejs
 #-lib hxatom
 -cp src
