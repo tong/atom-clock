@@ -1,7 +1,7 @@
 {
   "name": "clock",
   "main": "./lib/clock",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "description": "Display time in status bar",
   "keywords": [
     "clock",
