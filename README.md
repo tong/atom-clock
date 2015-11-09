@@ -1,5 +1,5 @@
-# Atom clock package
+# Clock
 
-A simple digital clock for the Atom status bar.
+A digital clock for the status bar.
 
 ![Screenshot](https://github.com/tong/atom-clock/raw/master/screenshot.png)
