@@ -1,3 +1,6 @@
+## 1.5.1
+* Compressed javascript output using closure
+
 ## 1.5.0
 * Optional clock icon
 
