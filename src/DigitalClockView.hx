@@ -2,19 +2,27 @@
 import js.Browser.document;
 import js.html.DivElement;
 
+@:forward(classList)
 abstract DigitalClockView(DivElement) {
 
     public var visible(get,set) : Bool;
+    public var iconVisible(get,set) : Bool;
 
     public inline function new() {
         this = document.createDivElement();
-        this.style.display = 'inline-block';
         this.classList.add( 'status-bar-clock', 'inline-block' );
+        this.style.display = 'inline-block';
     }
 
     inline function get_visible() : Bool return this.style.display == 'inline-block';
     inline function set_visible(v:Bool) : Bool {
         this.style.display = v ? 'inline-block' : 'none';
+        return v;
+    }
+
+    inline function get_iconVisible() : Bool return this.classList.contains( 'icon-clock' );
+    inline function set_iconVisible(v:Bool) : Bool {
+        v ? this.classList.add( 'icon-clock' ) : this.classList.remove( 'icon-clock' );
         return v;
     }
 

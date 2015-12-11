@@ -27,6 +27,12 @@ class Clock {
             "type": "boolean",
             "description": "Show AM/PM suffix when 12-hour format is selected",
             "default": true
+        },
+        icon: {
+            "title": "Show icon",
+            "type": "boolean",
+            "description": "Toggle show clock icon",
+            "default": false
         }
     };
 
@@ -55,11 +61,17 @@ class Clock {
         amPmSuffix = Atom.config.get( 'clock.am_pm_suffix' );
 
         view = new DigitalClockView();
+        view.iconVisible = Atom.config.get( 'clock.icon' );
 
         configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
+
             showSeconds = e.newValue.seconds;
+
             format24 = e.newValue.format;
             amPmSuffix = e.newValue.am_pm_suffix;
+
+            view.iconVisible = e.newValue.icon;
+
             update();
         });
 
@@ -69,10 +81,12 @@ class Clock {
     }
 
     static function deactivate() {
+
         if( timer != null ) {
             timer.stop();
             timer = null;
         }
+
         if( configChangeListener != null ) configChangeListener.dispose();
         if( commandShow != null ) commandShow.dispose();
         if( commandHide != null ) commandHide.dispose();
@@ -82,10 +96,14 @@ class Clock {
     static function serialize() return { enabled: enabled };
 
     static function show() {
+
         enabled = view.visible = true;
+
         timer = new Timer( 1000 );
         timer.run = update;
+
         commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
+
         if( commandShow != null ) {
             commandShow.dispose();
             commandShow = null;
@@ -93,11 +111,14 @@ class Clock {
     }
 
     static function hide() {
+
         enabled = view.visible = false;
+
         if( timer != null ) {
             timer.stop();
             timer = null;
         }
+
         commandShow = Atom.commands.add( 'atom-workspace', 'clock:show', function(_) show() );
         if( commandHide != null ) {
             commandHide.dispose();
