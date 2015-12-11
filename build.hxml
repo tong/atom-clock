@@ -1,13 +1,13 @@
 -js lib/clock.js
--lib hxnodejs
-#-lib hxatom
+Clock
 -cp src
 -cp ../../lib/hxatom/src
+-lib hxnodejs
+-dce full
 -D hxatom
 -D atom_package
 -D analyzer
-Clock
--dce full
 -D noEmbedJS
+-D js-es5
 --no-traces
 #-debug
