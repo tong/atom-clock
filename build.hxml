@@ -10,8 +10,8 @@ Clock
 -D analyzer
 -D noEmbedJS
 -D js-es5
--D closure_advanced
--D closure_prettyprint
+#-D closure_advanced
+#-D closure_prettyprint
 -D closure_overwrite
 --no-traces
 #-debug
