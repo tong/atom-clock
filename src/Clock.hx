@@ -2,6 +2,7 @@
 import js.Browser.document;
 import js.html.DivElement;
 import atom.Disposable;
+import atom.CompositeDisposable;
 import haxe.Timer;
 
 @:keep
@@ -31,106 +32,70 @@ class Clock {
         icon: {
             "title": "Show icon",
             "type": "boolean",
-            "description": "Toggle show clock icon",
+            "description": "Show a clock icon",
             "default": false
         }
     };
 
-    static var enabled :  Bool;
+    public static var enabled(default,null) : Bool;
 
-    static var showSeconds : Bool;
-    static var format24 : Bool;
-    static var amPmSuffix : Bool;
-
+    static var view : ClockView;
     static var timer : Timer;
-    static var commandToggleSeconds : Disposable;
-    static var commandShow : Disposable;
-    static var commandHide : Disposable;
-    static var configChangeListener : Disposable;
-    static var view : DigitalClockView;
+    static var disposables : CompositeDisposable;
+    static var commandEnable : Disposable;
+    static var commandDisable : Disposable;
 
     static function activate( state ) {
 
         trace( 'Atom-clock' );
 
-        enabled = (state != null) ? state.enabled : true;
-        if( enabled == null ) enabled = true;
-
-        showSeconds = Atom.config.get( 'clock.seconds' );
-        format24 = Atom.config.get( 'clock.format' );
-        amPmSuffix = Atom.config.get( 'clock.am_pm_suffix' );
-
+        disposables = new CompositeDisposable();
         view = new DigitalClockView();
-        view.iconVisible = Atom.config.get( 'clock.icon' );
 
-        configChangeListener = Atom.config.onDidChange( 'clock', {}, function(e){
+        enabled = (state != null) ? state.enabled : true;
+        enabled ? enable() : disable();
+    }
 
-            showSeconds = e.newValue.seconds;
+    static function enable() {
+        enabled = true;
+        if( commandEnable != null ) commandEnable.dispose();
+        disposables.add( commandDisable = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) disable() ) );
+        timer = new Timer( 1000 );
+        timer.run = update;
+        view.show();
+        update();
+    }
 
-            format24 = e.newValue.format;
-            amPmSuffix = e.newValue.am_pm_suffix;
+    static function disable() {
+        enabled = false;
+        if( timer != null ) {
+            timer.stop();
+            timer = null;
+        }
+        if( commandDisable != null ) commandDisable.dispose();
+        disposables.add( commandEnable = Atom.commands.add( 'atom-workspace', 'clock:show', function(_) enable() ) );
+        view.hide();
+    }
 
-            view.iconVisible = e.newValue.icon;
-
-            update();
-        });
-
-        commandToggleSeconds = Atom.commands.add( 'atom-workspace', 'clock:toggle-seconds', function(_) showSeconds = !showSeconds );
-
-        enabled ? show() : hide();
+    static function serialize() {
+        return {
+            enabled : enabled
+        };
     }
 
     static function deactivate() {
-
         if( timer != null ) {
             timer.stop();
             timer = null;
         }
-
-        if( configChangeListener != null ) configChangeListener.dispose();
-        if( commandShow != null ) commandShow.dispose();
-        if( commandHide != null ) commandHide.dispose();
-        commandToggleSeconds.dispose();
+        view.destroy();
+        disposables.dispose();
     }
 
-    static function serialize() return { enabled: enabled };
-
-    static function show() {
-
-        enabled = view.visible = true;
-
-        timer = new Timer( 1000 );
-        timer.run = update;
-
-        commandHide = Atom.commands.add( 'atom-workspace', 'clock:hide', function(_) hide() );
-
-        if( commandShow != null ) {
-            commandShow.dispose();
-            commandShow = null;
-        }
-    }
-
-    static function hide() {
-
-        enabled = view.visible = false;
-
-        if( timer != null ) {
-            timer.stop();
-            timer = null;
-        }
-
-        commandShow = Atom.commands.add( 'atom-workspace', 'clock:show', function(_) show() );
-        if( commandHide != null ) {
-            commandHide.dispose();
-            commandHide = null;
-        }
-    }
-
-    static inline function update() {
-        view.setTime( Date.now(), showSeconds, format24, amPmSuffix );
-    }
+    static inline function update()
+        view.setNow();
 
     static function consumeStatusBar( bar ) {
-        bar.addRightTile( { item:view, priority:-100 } );
+        bar.addRightTile( { item: view.element, priority: -100 } );
     }
 }

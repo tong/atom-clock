@@ -1,4 +1,5 @@
-## 1.5.1
+## 1.6.0
+* Tooltip shows date
 * Compressed javascript output using closure
 
 ## 1.5.0

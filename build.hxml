@@ -1,17 +1,6 @@
--js lib/clock.js
 Clock
+-js lib/clock.js
 -cp src
--cp ../../lib/hxatom/src
--lib hxnodejs
--lib closure
 -dce full
--D hxatom
--D atom_package
--D analyzer
--D noEmbedJS
--D js-es5
-#-D closure_advanced
-#-D closure_prettyprint
--D closure_overwrite
---no-traces
-#-debug
+-lib hxatom
+-cp ../../lib/hxatom/src
