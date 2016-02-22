@@ -9,8 +9,8 @@ class DigitalClockView extends ClockView {
     var showSeconds : Bool;
     var format24 : Bool;
     var amPmSuffix : Bool;
-
     var tooltip : Disposable;
+    var contextMenu : Disposable;
 
     public function new() {
 
@@ -24,6 +24,8 @@ class DigitalClockView extends ClockView {
 
         element.addEventListener( 'mouseover', handleMouseOver, false );
         element.addEventListener( 'mouseout', handleMouseOut, false );
+
+        contextMenu = Atom.contextMenu.add( { '.status-bar-clock': [{ label: 'Hide', command: 'clock:hide'  }] } );
     }
 
     public override function destroy() {
@@ -31,6 +33,7 @@ class DigitalClockView extends ClockView {
         element.removeEventListener( 'mouseover', handleMouseOver );
         element.removeEventListener( 'mouseout', handleMouseOut );
         if( tooltip != null ) tooltip.dispose();
+        contextMenu.dispose();
     }
 
     public override function setTime( time : Date ) {
@@ -59,9 +62,7 @@ class DigitalClockView extends ClockView {
         if( tooltip != null ) tooltip.dispose();
         var now = Date.now();
         var date = DateTools.format( now, '%F' );
-        //var time = DateTools.format( now, '%T' );
         tooltip = Atom.tooltips.add( element, {
-            //title: '<div>$date</div><div>$time</div>',
             title: '<div>$date</div>',
             delay: 0,
             html: true
