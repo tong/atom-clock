@@ -64,7 +64,7 @@ class DigitalClockView extends ClockView {
         var date = DateTools.format( now, '%F' );
         tooltip = Atom.tooltips.add( element, {
             title: '<div>$date</div>',
-            delay: 150,
+            delay: 200,
             html: true
         });
     }

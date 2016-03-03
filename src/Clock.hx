@@ -15,19 +15,19 @@ class Clock {
             "title": "Show seconds",
             "type": "boolean",
             "description": "Toggle show seconds",
-            "default": true
+            "default": false
         },
         format: {
             "title": "24-hour format",
             "type": "boolean",
-            "description": "Toggle 12/24 format",
+            "description": "Toggle 12/24 time display format",
             "default": true
         },
         am_pm_suffix: {
             "title": "AM/PM suffix",
             "type": "boolean",
             "description": "Show AM/PM suffix when 12-hour format is selected",
-            "default": true
+            "default": false
         },
         icon: {
             "title": "Show icon",

@@ -1,6 +1,6 @@
 ## 1.6.1
-* Short delay on tooltip
-* TravisCI using build-package.sh 
+* Tooltip delay
+* TravisCI using build-package.sh
 
 ## 1.6.0
 * Tooltip shows date
