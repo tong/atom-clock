@@ -1,3 +1,6 @@
+## 1.6.2
+* Show full date in tooltip
+
 ## 1.6.1
 * Tooltip delay
 * TravisCI using build-package.sh

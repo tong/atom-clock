@@ -61,10 +61,10 @@ class DigitalClockView extends ClockView {
     function handleMouseOver(e){
         if( tooltip != null ) tooltip.dispose();
         var now = Date.now();
-        var date = DateTools.format( now, '%F' );
+        var str = now.toString();
         tooltip = Atom.tooltips.add( element, {
-            title: '<div>$date</div>',
-            delay: 200,
+            title: '<div>$str</div>',
+            delay: 250,
             html: true
         });
     }
