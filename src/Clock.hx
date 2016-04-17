@@ -11,6 +11,7 @@ class Clock {
     static inline function __init__() untyped module.exports = Clock;
 
     public static var enabled(default,null) : Bool;
+    public static var timeStart(default,null) : Date;
 
     static var view : ClockView;
     static var timer : Timer;
@@ -22,11 +23,25 @@ class Clock {
 
         trace( 'Atom-clock' );
 
+        timeStart = Date.now();
+
         disposables = new CompositeDisposable();
         view = new DigitalClockView();
 
         enabled = (state != null) ? state.enabled : true;
         enabled ? enable() : disable();
+    }
+
+    static function serialize()
+        return { enabled : enabled };
+
+    static function deactivate() {
+        if( timer != null ) {
+            timer.stop();
+            timer = null;
+        }
+        view.destroy();
+        disposables.dispose();
     }
 
     static function enable() {
@@ -50,25 +65,15 @@ class Clock {
         view.hide();
     }
 
-    static function serialize() {
-        return {
-            enabled : enabled
-        };
-    }
-
-    static function deactivate() {
-        if( timer != null ) {
-            timer.stop();
-            timer = null;
-        }
-        view.destroy();
-        disposables.dispose();
-    }
-
     static inline function update()
         view.setNow();
 
     static function consumeStatusBar( bar ) {
         bar.addRightTile( { item: view.element, priority: -100 } );
     }
+
+    /*
+    public static inline function getSessionDuration() : Float
+        return Date.now().getTime() - timeStart;
+*/
 }

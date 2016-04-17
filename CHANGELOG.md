@@ -1,5 +1,7 @@
-## 1.6.2
+## 1.7.0
 * Show full date in tooltip
+* Moved config scheme to package.json
+* Show session start x-time-ago in tooltip
 
 ## 1.6.1
 * Tooltip delay
