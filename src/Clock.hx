@@ -10,33 +10,6 @@ class Clock {
 
     static inline function __init__() untyped module.exports = Clock;
 
-    static var config = {
-        seconds: {
-            "title": "Show seconds",
-            "type": "boolean",
-            "description": "Toggle show seconds",
-            "default": false
-        },
-        format: {
-            "title": "24-hour format",
-            "type": "boolean",
-            "description": "Toggle 12/24 time display format",
-            "default": true
-        },
-        am_pm_suffix: {
-            "title": "AM/PM suffix",
-            "type": "boolean",
-            "description": "Show AM/PM suffix when 12-hour format is selected",
-            "default": false
-        },
-        icon: {
-            "title": "Show icon",
-            "type": "boolean",
-            "description": "Show a clock icon",
-            "default": false
-        }
-    };
-
     public static var enabled(default,null) : Bool;
 
     static var view : ClockView;
