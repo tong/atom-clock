@@ -1,6 +1,7 @@
 Clock
 -js lib/clock.js
 -cp src
+-cp ../../lib/om.core/src
 -dce full
 -lib hxatom
--cp ../../lib/hxatom/src
+#-cp ../../lib/hxatom/src
