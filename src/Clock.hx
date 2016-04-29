@@ -1,9 +1,11 @@
 
-import js.Browser.document;
-import js.html.DivElement;
 import atom.Disposable;
 import atom.CompositeDisposable;
 import haxe.Timer;
+
+private typedef ClockState = {
+    enabled : Bool
+}
 
 @:keep
 class Clock {
@@ -19,9 +21,9 @@ class Clock {
     static var commandEnable : Disposable;
     static var commandDisable : Disposable;
 
-    static function activate( state ) {
+    static function activate( state : ClockState ) {
 
-        trace( 'Atom-clock' );
+        trace( 'Atom-clock '+state );
 
         timeStart = Date.now();
 
