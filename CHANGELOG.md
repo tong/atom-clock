@@ -1,3 +1,6 @@
+## 1.7.1
+* Fix show clock after install
+
 ## 1.7.0
 * Show full date in tooltip
 * Moved config scheme to package.json

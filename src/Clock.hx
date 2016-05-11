@@ -24,14 +24,18 @@ class Clock {
     static function activate( state : ClockState ) {
 
         trace( 'Atom-clock '+state );
+        trace( state );
 
         timeStart = Date.now();
 
         disposables = new CompositeDisposable();
         view = new DigitalClockView();
 
-        enabled = (state != null) ? state.enabled : true;
-        enabled ? enable() : disable();
+        if( state == null ) {
+            enable();
+        } else {
+            state.enabled ? enable() : disable();
+        }
     }
 
     static function serialize()
