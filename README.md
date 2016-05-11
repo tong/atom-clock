@@ -3,5 +3,4 @@
 
 A digital clock for the status bar.
 
-![Screenshot](https://github.com/tong/atom-clock/blob/master/data/screenshot.png)
-
+![Screenshot](https://raw.githubusercontent.com/tong/atom-clock/master/data/screenshot.png)
