@@ -1,14 +1,14 @@
 
-import Atom.config;
 import atom.Disposable;
 import js.Browser.document;
 import js.html.DivElement;
+import Atom.config;
 
 class DigitalClockView extends ClockView {
 
-    var showSeconds : Bool;
     var format24 : Bool;
     var amPmSuffix : Bool;
+
     var tooltip : Disposable;
     var contextMenu : Disposable;
 
@@ -28,15 +28,10 @@ class DigitalClockView extends ClockView {
         contextMenu = Atom.contextMenu.add( { '.status-bar-clock': [{ label: 'Hide', command: 'clock:hide'  }] } );
     }
 
-    public override function destroy() {
-        super.destroy();
-        element.removeEventListener( 'mouseover', handleMouseOver );
-        element.removeEventListener( 'mouseout', handleMouseOut );
-        if( tooltip != null ) tooltip.dispose();
-        contextMenu.dispose();
-    }
-
     public override function setTime( time : Date ) {
+
+        element.dateTime = time.toString();
+
         var hours = time.getHours();
         if( !format24 && hours > 12 ) hours -= 12;
         var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
@@ -45,12 +40,26 @@ class DigitalClockView extends ClockView {
         element.textContent = str;
     }
 
+    public override function destroy() {
+
+        super.destroy();
+
+        element.removeEventListener( 'mouseover', handleMouseOver );
+        element.removeEventListener( 'mouseout', handleMouseOut );
+
+        if( tooltip != null ) tooltip.dispose();
+
+        contextMenu.dispose();
+    }
+
     override function handleConfigChange(e) {
+
         var v = e.newValue;
         showSeconds = v.seconds;
         format24 = v.format;
         amPmSuffix = v.am_pm_suffix;
         setShowIcon( v.icon );
+
         if( Clock.enabled ) setNow();
     }
 
@@ -59,10 +68,14 @@ class DigitalClockView extends ClockView {
     }
 
     function handleMouseOver(e){
+
         if( tooltip != null ) tooltip.dispose();
+
         var now = Date.now();
+
         var html = '<div>' + now.toString() + '</div>';
         html += '<div>This session started: '+om.util.DateUtil.xTimeAgo( Clock.timeStart ) + '</div>';
+
         tooltip = Atom.tooltips.add( element, {
             title: '<div>$html</div>',
             delay: 250,
@@ -74,6 +87,6 @@ class DigitalClockView extends ClockView {
         tooltip.dispose();
     }
 
-    static function formatTimePart( i : Int ) : String
+    static inline function formatTimePart( i : Int ) : String
         return (i < 10) ? '0$i' : Std.string(i);
 }

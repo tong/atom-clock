@@ -1,19 +1,24 @@
 
-import atom.Disposable;
 import js.Browser.document;
 import js.html.DivElement;
+import js.html.TimeElement;
+import atom.Disposable;
+import Atom.config;
 
 class ClockView {
 
-    public var element(default,null) : DivElement;
+    public var element(default,null) : TimeElement;
 
+    var showSeconds : Bool;
     var configChangeListener : Disposable;
 
     function new() {
 
-        element = document.createDivElement();
+        element = untyped document.createElement( 'time' );
         element.classList.add( 'status-bar-clock', 'inline-block' );
-        element.style.display = 'inline-block';
+        //element.style.display = 'inline-block';
+
+        showSeconds = config.get( 'clock.seconds' );
 
         configChangeListener = Atom.config.onDidChange( 'clock', {}, handleConfigChange );
     }
