@@ -1,3 +1,7 @@
+## 1.7.2
+* Use <time> as container element
+* Use requestAnimationFrame for updates
+
 ## 1.7.1
 * Fix show clock after install
 
