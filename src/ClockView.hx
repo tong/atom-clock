@@ -16,11 +16,10 @@ class ClockView {
 
         element = untyped document.createElement( 'time' );
         element.classList.add( 'status-bar-clock', 'inline-block' );
-        //element.style.display = 'inline-block';
 
         showSeconds = config.get( 'clock.seconds' );
 
-        configChangeListener = Atom.config.onDidChange( 'clock', {}, handleConfigChange );
+        configChangeListener = config.onDidChange( 'clock', {}, handleConfigChange );
     }
 
     public function show() {
@@ -36,8 +35,11 @@ class ClockView {
         element.remove();
     }
 
-    public function setTime( time : Date ) {}
-    public inline function setNow() setTime( Date.now() );
+    public function setTime( ?time : Date ) {
+        // Override me
+    }
 
-    function handleConfigChange(e) {}
+    function handleConfigChange(e) {
+        // Override me
+    }
 }
