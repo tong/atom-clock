@@ -20,9 +20,9 @@ haxe:
     - development
 
 before_script:
-    - cd ..
-    - git clone https://github.com/tong/atom-clock.git
-    - cd -
+    #- cd ..
+    #- git clone https://github.com/tong/atom-clock.git
+    #- cd -
 
 script:
     - haxe build.hxml
