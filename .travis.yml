@@ -6,23 +6,3 @@ notifications:
     on_failure: change
 
 script: 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
-
-language: haxe
-
-branches:
-  only:
-    - master
-
-sudo: false
-
-haxe:
-    - "3.2.1"
-    - development
-
-before_script:
-    #- cd ..
-    #- git clone https://github.com/tong/atom-clock.git
-    #- cd -
-
-script:
-    - haxe build.hxml
