@@ -1,6 +1,10 @@
-## 1.7.2
+
+## 1.7.2 HEAD
 * Use <time> as container element
 * Use requestAnimationFrame for updates
+* Fix clock not shown in workspace
+
+---
 
 ## 1.7.1
 * Fix show clock after install

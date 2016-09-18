@@ -1,6 +1,6 @@
-Clock
 -js lib/clock.js
 -cp src
 -lib hxatom
 -lib om
 -dce full
+Clock
