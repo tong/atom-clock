@@ -9,29 +9,33 @@
     "statusbar"
   ],
   "configSchema": {
+    "icon": {
+        "title": "Show icon",
+        "type": "boolean",
+        "description": "Show a clock icon",
+        "default": false,
+        "order": 1
+    },
     "seconds": {
       "title": "Show seconds",
       "type": "boolean",
       "description": "Toggle show seconds",
-      "default": false
+      "default": false,
+      "order": 2
     },
     "format": {
       "title": "24-hour format",
       "type": "boolean",
       "description": "Toggle 12/24 time display format",
-      "default": true
+      "default": true,
+      "order": 3
     },
     "am_pm_suffix": {
       "title": "AM/PM suffix",
       "type": "boolean",
       "description": "Show AM/PM suffix when 12-hour format is selected",
-      "default": false
-    },
-    "icon": {
-      "title": "Show icon",
-      "type": "boolean",
-      "description": "Show a clock icon",
-      "default": false
+      "default": false,
+      "order": 4
     }
   },
   "consumedServices": {
