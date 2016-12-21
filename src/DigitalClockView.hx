@@ -30,13 +30,26 @@ class DigitalClockView extends ClockView {
         ]});
     }
 
-    public function formatTime( ?time : Date ) : String {
+    public function formatTimeString( ?time : Date ) : String {
+
         if( time == null ) time = Date.now();
-        var hours = time.getHours();
-        if( !format24 && hours > 12 ) hours -= 12;
-        var str = formatTimePart( hours ) + ':' + formatTimePart( time.getMinutes() );
-        if( showSeconds ) str += ':' + formatTimePart( time.getSeconds() );
-        if( !format24 && amPmSuffix ) str += (time.getHours() > 12) ? ' PM' : ' AM';
+
+        var strf = '';
+        var str = '';
+
+        if( format24 ) {
+            strf = '%H:%M';
+            if( showSeconds ) strf += ':%S';
+        } else {
+            strf = '%I:%M';
+            if( showSeconds ) strf += ':%S';
+            if( amPmSuffix ) strf += ' %p';
+        }
+
+        try str = DateTools.format( time, strf ) catch(e:Dynamic) {
+            return e;
+        }
+
         return str;
     }
 
@@ -48,7 +61,7 @@ class DigitalClockView extends ClockView {
         if( element.dateTime == dateTime )
             return;
         element.dateTime = dateTime;
-        element.textContent = formatTime( time );
+        element.textContent = formatTimeString( time );
     }
 
     public override function destroy() {
