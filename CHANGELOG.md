@@ -1,4 +1,7 @@
 
+## 1.9.0
+* Update digital clock on settings change event
+
 ## 1.8.0
 * Use DateTools.format strftime to format digital time string
 * Sort config schema properties
