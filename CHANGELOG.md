@@ -1,4 +1,8 @@
 
+## 1.8.0
+* Use DateTools.format strftime to format digital time string
+* Sort config schema properties
+
 ## 1.7.2
 * Use <time> as container element
 * Use requestAnimationFrame for updates
