@@ -1,7 +1,7 @@
 {
   "name": "clock",
   "main": "./lib/clock",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "Display time in status bar",
   "keywords": [
     "clock",
@@ -10,11 +10,11 @@
   ],
   "configSchema": {
     "icon": {
-        "title": "Show icon",
-        "type": "boolean",
-        "description": "Show a clock icon",
-        "default": false,
-        "order": 1
+      "title": "Show icon",
+      "type": "boolean",
+      "description": "Show a clock icon",
+      "default": false,
+      "order": 1
     },
     "seconds": {
       "title": "Show seconds",
