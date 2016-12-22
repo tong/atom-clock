@@ -30,9 +30,7 @@ class DigitalClockView extends ClockView {
         ]});
     }
 
-    public function formatTimeString( ?time : Date ) : String {
-
-        if( time == null ) time = Date.now();
+    public function formatTimeString( time : Date ) : String {
 
         var strf = '';
         var str = '';
@@ -54,12 +52,8 @@ class DigitalClockView extends ClockView {
     }
 
     public override function setTime( ?time : Date ) {
-        if( time == null ) {
-            time = Date.now();
-        }
+        if( time == null ) time = Date.now();
         var dateTime = time.toString();
-        if( element.dateTime == dateTime )
-            return;
         element.dateTime = dateTime;
         element.textContent = formatTimeString( time );
     }
@@ -82,14 +76,13 @@ class DigitalClockView extends ClockView {
 
     override function handleConfigChange(e) {
 
-        var v = e.newValue;
-        showSeconds = v.seconds;
-        format24 = v.format;
-        amPmSuffix = v.am_pm_suffix;
-        setShowIcon( v.icon );
+        var nv = e.newValue;
+        this.showSeconds = nv.seconds;
+        this.format24 = nv.format;
+        this.amPmSuffix = nv.am_pm_suffix;
+        setShowIcon( nv.icon );
 
-        //if( Clock.enabled ) setNow();
-        setTime( Date.now() );
+        setTime();
     }
 
     function handleMouseOver(e) {
