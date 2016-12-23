@@ -104,6 +104,4 @@ class DigitalClockView extends ClockView {
         tooltip.dispose();
     }
 
-    public static inline function formatTimePart( i : Int ) : String
-        return (i < 10) ? '0$i' : Std.string(i);
 }
