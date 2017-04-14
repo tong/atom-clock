@@ -1,5 +1,5 @@
 -js lib/clock.js
 -cp src
--lib hxatom
+-lib atom
 -dce full
 Clock

@@ -1,4 +1,7 @@
 
+## 1.10.0
+* Use auto generated hxatom type definitions
+
 ## 1.9.0
 * Update digital clock on settings change event
 
