@@ -90,8 +90,8 @@ class DigitalClockView extends ClockView {
         if( tooltip != null ) tooltip.dispose();
 
         var now = Date.now();
-        var html = '<div>' + now.toString() + '</div>';
-        //html += '<div>This session started: '+om.util.DateUtil.xTimeAgo( Clock.timeStart ) + '</div>';
+        var str = DateTools.format( now, '%A %Y-%m-%d' );
+        var html = '<div>$str</div>';
 
         tooltip = Atom.tooltips.add( element, {
             title: '<div>$html</div>',
