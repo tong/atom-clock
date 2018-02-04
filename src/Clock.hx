@@ -26,6 +26,7 @@ class Clock {
         trace( 'Atom-clock '+state );
 
         disposables = new CompositeDisposable();
+
         view = new DigitalClockView();
 
         if( state == null || (state.enabled == null ) || state.enabled ) {
@@ -43,7 +44,7 @@ class Clock {
     static function deactivate() {
 
         window.cancelAnimationFrame( animationFrameId );
-        
+
         /*
         if( timer != null ) {
             timer.stop();
