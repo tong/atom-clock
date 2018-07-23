@@ -11,7 +11,7 @@ private typedef ClockState = {
 @:keep
 class Clock {
 
-    static inline function __init__() untyped module.exports = Clock;
+    //static inline function __init__() untyped module.exports = Clock;
 
     public static var enabled(default,null) : Bool;
 
@@ -21,6 +21,7 @@ class Clock {
     static var commandDisable : Disposable;
     static var animationFrameId : Int;
 
+    @:expose("activate")
     static function activate( state : ClockState ) {
 
         trace( 'Atom-clock '+state );
@@ -36,11 +37,13 @@ class Clock {
         }
     }
 
+    @:expose("serialize")
     static function serialize()
         return {
             enabled : enabled
         };
 
+    @:expose("deactivate")
     static function deactivate() {
 
         window.cancelAnimationFrame( animationFrameId );
@@ -93,6 +96,7 @@ class Clock {
         view.setTime();
     }
 
+    @:expose("consumeStatusBar")
     static function consumeStatusBar( bar ) {
         bar.addRightTile( { item: view.element, priority: -100 } );
     }
