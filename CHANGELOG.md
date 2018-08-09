@@ -1,6 +1,8 @@
 
-## 1.10.0
+## 1.9.1
 * Use auto generated hxatom type definitions
+* Tooltip formatting improvements
+* Expose package methods using metadata
 
 ## 1.9.0
 * Update digital clock on settings change event

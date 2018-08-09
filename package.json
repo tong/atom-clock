@@ -2,7 +2,7 @@
   "name": "clock",
   "main": "./lib/clock",
   "version": "1.9.0",
-  "description": "Display time in status bar",
+  "description": "Digital clock for the status bar",
   "keywords": [
     "clock",
     "time",

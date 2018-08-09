@@ -11,8 +11,6 @@ private typedef ClockState = {
 @:keep
 class Clock {
 
-    //static inline function __init__() untyped module.exports = Clock;
-
     public static var enabled(default,null) : Bool;
 
     static var view : ClockView;
